@@ -2,7 +2,7 @@ import os
 import re
 import telebot
 from dotenv import load_dotenv, find_dotenv
-from mikrotik_actions import connection
+from mikrotik_actions import connection, update
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 load_dotenv(find_dotenv())
@@ -46,7 +46,8 @@ def send_text(message):
 @bot.callback_query_handler(func=lambda call: True)
 def click_handler(call):
     if call.data == 'update_router':
-        bot.send_message(call.message.chat.id, call.data)
+        update_message = update()
+        bot.send_message(call.message.chat.id, update_message)
 
 
 bot.polling(none_stop=True, interval=0)

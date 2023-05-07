@@ -11,9 +11,12 @@ def connection(ssh_user, ssh_ip, ssh_password):
     except:
         return 'Failed connection'
 
+
 def update():
     try:
-
+        stdin, stdout, stderr = client.exec_command('/system package update install')
+        stdout.channel.recv_exit_status()
+        client.close()
         return 'Successfully updated'
     except:
         return 'Failed update'
