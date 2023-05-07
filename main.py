@@ -2,9 +2,7 @@ import os
 import re
 import telebot
 from dotenv import load_dotenv, find_dotenv
-from telebot import types
 from mikrotik_actions import connection
-from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 load_dotenv(find_dotenv())
@@ -45,10 +43,10 @@ def send_text(message):
         bot.send_message(message.chat.id, 'I do not understand you')
 
 
-def update_router(message):
-    bot.send_message(message.chat.id, 'Update')
+@bot.callback_query_handler(func=lambda call: True)
+def click_handler(call):
+    if call.data == 'update_router':
+        bot.send_message(call.message.chat.id, call.data)
 
-
-handler = CallbackQueryHandler(update_router, pattern='^update_router$')
 
 bot.polling(none_stop=True, interval=0)
